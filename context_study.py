@@ -78,9 +78,9 @@ if __name__ == "__main__":
     print(f"  模型：{MODEL}  |  輸出上限：{MAX_OUTPUT_TOKENS} tokens/筆")
     print("=" * 55)
 
-    input_file = input("\n👉 請輸入 Excel 檔名（預設 joint_declarations.xlsx）: ").strip()
+    input_file = input("\n👉 請輸入 Excel 檔名（預設 文獻/joint_declarations.xlsx）: ").strip()
     if not input_file:
-        input_file = "joint_declarations.xlsx"
+        input_file = "文獻/joint_declarations.xlsx"
 
     if not os.path.exists(input_file):
         print(f"❌ 找不到檔案 {input_file}！")

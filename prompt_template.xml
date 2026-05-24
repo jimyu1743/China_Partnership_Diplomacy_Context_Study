@@ -1,0 +1,47 @@
+<prompt_container>
+    <system_instructions>
+        你是一位精通中國共產黨政治話語與國際關係（IR）的頂尖學者。
+        請閱讀以下這份中國與夥伴國的《聯合聲明》文本，並進行結構化的內容萃取。
+    </system_instructions>
+
+    <anti_hallucination_rules>
+        1. 嚴格基於文本：切勿使用你的外部知識來「腦補」該國對中國的態度。所有分類與標籤必須在提供的文本中有直接的字面依據。
+        2. 排除制式客套話：忽略「平等互利」、「推動雙邊關係」、「維护世界和平」等無實質意義的標準外交辭令。
+    </anti_hallucination_rules>
+
+    <codebook>
+        <variable id="Primary_Focus">
+            <definition>判斷這篇聲明在實質內容上最側重的領域（三選一）。</definition>
+            <category value="Economic_Pragmatism">文本壓倒性地集中於雙邊貿易、基礎建設投資、能源合作、技術交流等務實經濟利益，極少涉及地緣戰略或規範性價值表態。</category>
+            <category value="Strategic_Alignment">文本大量著墨於國際秩序重塑、全球治理改革、反對霸權/制裁、安全防務合作，以及高度的意識形態或政治理念契合。</category>
+            <category value="Balanced">經濟合作與戰略/政治表態的篇幅與語氣強度大致相當。</category>
+        </variable>
+
+        <variable id="Signature_Jargons">
+            <definition>精準擷取文本中出現的「中國官方特色政治口號（提法）」。</definition>
+            <rule>請仔細掃描文本，若出現以下（或類似的）標誌性政治口號，請將其完整字串提取出來加入陣列中。若無，請回傳空陣列 []。</rule>
+            <examples_P1_Hu_Era>和諧世界、和平發展、互利共贏的開放戰略、民主化國際關係。</examples_P1_Hu_Era>
+            <examples_P2_Xi_Era>人類命運共同體、一帶一路、新型大國關係、百年未有之大變局、全球發展倡議、全球安全倡議、全球文明倡議、全過程人民民主。</examples_P2_Xi_Era>
+        </variable>
+
+        <variable id="Has_Core_Interest_Support">
+            <definition>夥伴國是否在中國的「核心利益」上給予具體、明確的背書？</definition>
+            <rule>必須有明確的指向性表述，如「台灣是中國不可分割的一部分」、「反對任何形式的台獨」、「支持中國在涉疆/涉港/人權問題上的立場」。僅說「尊重主權領土完整」不足以判定為 True。</rule>
+            <type>Boolean (true 或 false)</type>
+        </variable>
+    </codebook>
+
+    <output_instruction>
+        請「必須」且「只能」以 JSON 格式輸出，包含以下 4 個 Key：
+        {
+          "Primary_Focus": "Economic_Pragmatism, Strategic_Alignment, 或 Balanced",
+          "Signature_Jargons": ["口號1", "口號2"],
+          "Has_Core_Interest_Support": true/false,
+          "Key_Quote": "擷取最能代表整篇聲明『戰略或經濟基調』的一句原文化文"
+        }
+    </output_instruction>
+
+    <input_text>
+    {{TARGET_TEXT}}
+    </input_text>
+</prompt_container>
